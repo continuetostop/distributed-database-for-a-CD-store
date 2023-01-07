@@ -1,6 +1,6 @@
 
 
---cập nhật tổng đơn hàng sau khi thêm sản phẩm vào đơn hàng
+--cập nhật tổng đơn hàng sau khi xóa sản phẩm ra khỏi chi tiết đơn hàng
 CREATE
 OR REPLACE TRIGGER orders_details_after_delete
 AFTER
@@ -39,8 +39,19 @@ SET
     where stock_id=curr_stock_id;
 END;
 
+--xóa tất cả các chi tiết order trước khi xóa order
+CREATE
+OR REPLACE TRIGGER orders_before_delete
+before
+DELETE
+    ON orders_details FOR EACH ROW
+    DECLARE curr_stock_id number;
 
---cập nhật số lượng cd có trong kho sau khi thêm chi tiết sản phẩm
+BEGIN
+    delete from orders_details where order_id=:old.order_id;
+end;
+
+--cập nhật số lượng cd có trong kho sau khi xóa khỏi chi tiết import cd
 
 create or replace trigger import_cd_detail_after_delete
 after delete on import_cd_detail 
@@ -61,5 +72,17 @@ begin
    where stock_id=curr_stock_id;
 end;
 
+
+--xóa tất cả các chi tiết import sau khi xóa trước khi xóa import cd
+CREATE
+OR REPLACE TRIGGER import_cd_before_delete
+before
+DELETE
+    ON import_cd FOR EACH ROW
+    DECLARE curr_stock_id number;
+
+BEGIN
+    delete from import_cd_detail where import_cd_id=:old.import_cd_id;
+end;
 
 

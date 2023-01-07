@@ -17,14 +17,14 @@ connect system/123456;
 
 CREATE ROLE c##role_user_guest2 NOT IDENTIFIED;
 
-GRANT select,insert on c##M2.stock to c##role_user_guest2;
-GRANT select,insert  on c##M2.cd to c##role_user_guest2;
-GRANT select  on c##M2.stock_detail to c##role_user_guest2;
-GRANT select,insert  on c##M2.import_cd to c##role_user_guest2;
-GRANT select,insert, update on c##M2.import_cd_detail to c##role_user_guest2;
-GRANT select,insert  on c##M2.customer to c##role_user_guest2;
-GRANT select,insert  on c##M2.orders to c##role_user_guest2;
-GRANT select,insert,update  on c##M2.orders_details to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.stock to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.cd to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.stock_detail to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.import_cd to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.import_cd_detail to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.customer to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.orders to c##role_user_guest2;
+GRANT select,insert,update,delete  on c##M2.orders_details to c##role_user_guest2;
 
 CREATE USER C##GUEST2 IDENTIFIED BY GUEST;
 GRANT CONNECT TO C##GUEST2;

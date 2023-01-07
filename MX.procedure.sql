@@ -526,3 +526,157 @@ select * from C##m2.import_cd_detail@db_m2;
 select * from c##admin.customer@DB_admin;
  
 -- end test procedure update_quatity_order_details
+
+
+
+create or replace procedure delete_orders_details(n_order_id in Number,n_cd_id in Number)
+as 
+    dem int;
+Begin
+    select count(order_id) into dem from c##M1.orders_details@db_m1 where order_id=n_order_id and cd_id=n_cd_id;
+    if(dem=1) then
+        delete from c##m1.orders_details@db_m1  where order_id=n_order_id and cd_id=n_cd_id;
+    else
+        select count(order_id) into dem from c##M2.orders_details@db_m2 where order_id=n_order_id and cd_id=n_cd_id;
+        if(dem=1) then
+            delete from c##M2.orders_details@db_m2 where order_id=n_order_id and cd_id=n_cd_id;
+        else    
+            dbms_output.put_line('order detail is not exsit.');
+        end if;
+    end if;
+    commit;
+end;
+
+-- start test procedure delete_orders_details
+
+begin
+delete_orders_details (1, 1);
+end;
+
+select * from orders;
+select * from orders_details;
+select * from stock_detail;
+select * from c##admin.customer@db_admin;
+select * from c##admin.stock@db_admin;
+
+-- end test procedure delete_orders_details
+
+
+create or replace procedure delete_order(n_order_id in Number)
+as 
+    dem int;
+Begin
+    select count(order_id) into dem from c##M1.orders@db_m1 where order_id=n_order_id;
+    if(dem=1) then
+        delete from c##M1.orders_details@db_m1  where  order_id=n_order_id;
+        commit;
+        delete from c##M1.orders@db_m1 where order_id=n_order_id;
+    else
+        select count(order_id) into dem from c##M2.orders@db_m2 where order_id=n_order_id;
+        if(dem=1) then
+            delete from c##M2.orders_details@db_m2 where  order_id=n_order_id;
+            commit;
+            delete from c##M2.orders@db_m2 where order_id=n_order_id;
+        else    
+            dbms_output.put_line('order id is not exsit.');
+        end if;
+    end if;
+end;
+-- start test procedure delete_order
+begin
+--insert_order_details (n_order_id, n_cd_id, n_quatity)
+insert_order_details (1, 1, 2);
+end;
+
+begin 
+    delete_order(1);
+end;
+
+select * from orders;
+select * from orders_details;
+select * from stock_detail;
+select * from c##admin.customer@db_admin;
+select * from c##admin.stock@db_admin;
+
+
+
+-- end test procedure delete_order
+
+
+
+
+
+
+create or replace procedure delete_import_cd_detail(n_import_cd_id in Number,n_cd_id in Number)
+as 
+    dem int;
+Begin
+    select count(import_cd_id) into dem from c##M1.import_cd_detail@db_m1 where import_cd_id=n_import_cd_id and cd_id=n_cd_id;
+    if(dem=1) then
+        delete from c##M1.import_cd_detail@db_m1 where import_cd_id=n_import_cd_id and cd_id=n_cd_id;
+    else
+        select count(import_cd_id) into dem from c##M2.import_cd_detail@db_m2 where import_cd_id=n_import_cd_id and cd_id=n_cd_id;
+        if(dem=1) then
+            delete from c##M2.import_cd_detail@db_m2 where import_cd_id=n_import_cd_id and cd_id=n_cd_id;
+        else    
+            dbms_output.put_line('import cd detail id is not exsit.');
+        end if;
+    end if;
+end ;
+
+-- start test procedure delete_import_cd_detail
+
+begin
+    delete_import_cd_detail(1,1);
+end;
+
+select * from c##M1.import_cd;
+select * from c##M1.import_cd_detail;
+select * from c##M1.stock_detail;
+select * from c##admin.customer@db_admin;
+select * from c##admin.stock@db_admin;
+
+
+-- end test procedure delete_import_cd_detail
+
+create or replace procedure delete_import_cd(n_import_cd_id in Number)
+as 
+    dem int;
+Begin
+    select count(import_cd_id) into dem from c##M1.import_cd@db_m1 where import_cd_id=n_import_cd_id;
+    if(dem=1) then
+        delete from c##M1.import_cd_detail@db_m1 where import_cd_id=n_import_cd_id;
+        commit;
+        delete from c##M1.import_cd@db_m1 where import_cd_id=n_import_cd_id;
+    else
+        select count(import_cd_id) into dem from c##M2.import_cd@db_m2 where import_cd_id=n_import_cd_id;
+        if(dem=1) then
+            delete from c##M2.import_cd_detail@db_m2 where import_cd_id=n_import_cd_id;
+            commit; 
+            delete from c##M2.import_cd@db_m2 where import_cd_id=n_import_cd_id;
+        else    
+            dbms_output.put_line('import cd id is not exsit.');
+        end if;
+    end if;
+end ;
+
+-- start test procedure delete_import_cd
+
+
+
+begin
+    insert_import_cd_detail(1,1,5);
+end;
+
+begin
+    delete_import_cd(1);
+end;
+
+select * from import_cd;
+select * from import_cd_detail;
+select * from stock_detail;
+select * from c##admin.customer@db_admin;
+select * from c##admin.stock@db_admin;
+
+
+-- end test procedure delete_import_cd

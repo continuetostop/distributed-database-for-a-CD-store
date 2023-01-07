@@ -55,8 +55,8 @@ create table import_cd_detail(
     cd_id number,
     quatity number,
     PRIMARY KEY(import_cd_id,cd_id),
-    FOREIGN KEY (import_cd_id) REFERENCES import_cd(import_cd_id) ON DELETE CASCADE,
-    FOREIGN KEY (cd_id) REFERENCES cd(cd_id)
+    FOREIGN KEY (import_cd_id) REFERENCES import_cd(import_cd_id) ,
+    FOREIGN KEY (cd_id) REFERENCES cd(cd_id) 
 );
 
 create table customer (
@@ -87,8 +87,8 @@ create table orders_details(
     quatity number,
     price number,
     PRIMARY KEY(order_id,cd_id),
-    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
-    FOREIGN KEY (cd_id) REFERENCES cd(cd_id)
+    FOREIGN KEY (order_id) REFERENCES orders(order_id) ,
+    FOREIGN KEY (cd_id) REFERENCES cd(cd_id) 
 );
 
 
@@ -99,13 +99,3 @@ insert into city values (3,'Da Nang');
 insert into brand_store values(1,'branch Ha Noi','cau giay',1,'0962xxxx');
 insert into brand_store values(2,'branch Ho Chi Minh','Thu Duc',2,'0962xxxx');
 insert into brand_store values(3,'branch Da Nang','Thu Duc',3,'0962xxxx');
-
-create table brand_store(
-    brand_store_id number,
-    brand_store_name varchar2(255),
-    brand_store_district varchar2(255),
-    brand_store_city_id number,
-    brand_store_hotline varchar2(15),
-    PRIMARY KEY(brand_store_id),
-    FOREIGN KEY (brand_store_city_id) REFERENCES city(city_id)
-);
